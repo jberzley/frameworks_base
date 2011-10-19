@@ -437,4 +437,9 @@ interface IWindowManager
      * Remove the input consumer for wallpaper events.
      */
     void removeWallpaperInputConsumer();
+
+    /**
+     * Device has a software navigation bar (separate from the status bar).
+     */
+    boolean hasNavigationBar();
 }
