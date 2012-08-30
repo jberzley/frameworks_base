@@ -331,6 +331,12 @@ interface IWindowManager
     oneway void statusBarVisibilityChanged(int visibility);
 
     /**
+     * Device requires a software navigation bar.
+     */
+    boolean needsNavigationBar();
+
+
+    /**
      * Called by System UI to notify of changes to the visibility of Recents.
      */
     oneway void setRecentsVisibility(boolean visible);
@@ -342,6 +348,11 @@ interface IWindowManager
 
     /**
      * Device has a software navigation bar (separate from the status bar).
+     */
+    boolean hasNavigationBar();
+
+    /**
+     * Simulate a hardware menu key
      */
     boolean hasNavigationBar();
 
@@ -437,9 +448,4 @@ interface IWindowManager
      * Remove the input consumer for wallpaper events.
      */
     void removeWallpaperInputConsumer();
-
-    /**
-     * Device has a software navigation bar (separate from the status bar).
-     */
-    boolean hasNavigationBar();
 }
