@@ -154,6 +154,7 @@ import com.android.internal.policy.PhoneWindow;
 import com.android.internal.policy.IKeyguardService;
 import com.android.internal.policy.IShortcutService;
 import com.android.internal.statusbar.IStatusBarService;
+import com.android.internal.utils.du.DUActionUtils;
 import com.android.internal.util.ScreenShapeHelper;
 import com.android.internal.widget.PointerLocationView;
 import com.android.server.GestureLauncherService;
@@ -651,7 +652,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     boolean mForcingShowNavBar;
     int mForcingShowNavBarLayer;
 
-    boolean mNavBarEnabled = false;
+    // User defined bar visibility, regardless of factory configuration
+    boolean mNavbarVisible = false;
 
     // States of keyguard dismiss.
     private static final int DISMISS_KEYGUARD_NONE = 0; // Keyguard not being dismissed.
@@ -996,6 +998,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.KEYGUARD_TOGGLE_TORCH), false, this,
+                    UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.NAVIGATION_BAR_VISIBLE), false, this,
                     UserHandle.USER_ALL);
             updateSettings();
         }
@@ -2247,9 +2252,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
 
         // Read custom policy settings.
-        final boolean hasHome = mNavBarEnabled || (mDeviceHardwareKeys & KEY_MASK_HOME) != 0;
-        final boolean hasAppSwitch = mNavBarEnabled || (mDeviceHardwareKeys & KEY_MASK_APP_SWITCH) != 0;
-        final boolean hasBack = mNavBarEnabled || (mDeviceHardwareKeys & KEY_MASK_BACK) != 0;
+        final boolean hasHome = mNavbarVisible || (mDeviceHardwareKeys & KEY_MASK_HOME) != 0;
+        final boolean hasAppSwitch = mNavbarVisible || (mDeviceHardwareKeys & KEY_MASK_APP_SWITCH) != 0;
+        final boolean hasBack = mNavbarVisible || (mDeviceHardwareKeys & KEY_MASK_BACK) != 0;
         final boolean hasMenu = (mDeviceHardwareKeys & KEY_MASK_MENU) != 0;
         final boolean hasAssist = (mDeviceHardwareKeys & KEY_MASK_ASSIST) != 0;
         final boolean hasCamera = (mDeviceHardwareKeys & KEY_MASK_CAMERA) != 0;
@@ -2370,16 +2375,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         // Allow the navigation bar to move on non-square small devices (phones).
         mNavigationBarCanMove = width != height && shortSizeDp < 600;
 
-        mHasNavigationBar = res.getBoolean(com.android.internal.R.bool.config_showNavigationBar);
-
-        // Allow a system property to override this. Used by the emulator.
-        // See also hasNavigationBar().
-        String navBarOverride = SystemProperties.get("qemu.hw.mainkeys");
-        if ("1".equals(navBarOverride)) {
-            mHasNavigationBar = false;
-        } else if ("0".equals(navBarOverride)) {
-            mHasNavigationBar = true;
-        }
+        // reflects original device state from config or build prop, regardless of user settings
+        mHasNavigationBar = DUActionUtils.hasNavbarByDefault(mContext);
 
         // For demo purposes, allow the rotation of the HDMI display to be controlled.
         // By default, HDMI locks rotation to landscape.
@@ -2415,7 +2412,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
      *         navigation bar and touch exploration is not enabled
      */
     private boolean canHideNavigationBar() {
-        return hasNavigationBar();
+        return hasNavigationBar()
+                && !mAccessibilityManager.isTouchExplorationEnabled();
     }
 
     @Override
@@ -2459,10 +2457,12 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 updateWakeGestureListenerLp();
             }
 
-            final boolean navBarEnabled = Settings.System.getIntForUser(resolver,
-                    Settings.System.NAVIGATION_BAR_ENABLED, 0, UserHandle.USER_CURRENT) == 1;
-            if (navBarEnabled != mNavBarEnabled) {
-                mNavBarEnabled = navBarEnabled;
+            boolean doShowNavbar = Settings.Secure.getIntForUser(resolver,
+                    Settings.Secure.NAVIGATION_BAR_VISIBLE,
+                    DUActionUtils.hasNavbarByDefault(mContext) ? 1 : 0,
+                    UserHandle.USER_CURRENT) == 1;
+            if (doShowNavbar != mNavbarVisible) {
+                mNavbarVisible = doShowNavbar;
             }
 
             readConfigurationDependentBehaviors();
@@ -6549,9 +6549,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         // Apply custom policy for supported key codes.
         if (canApplyCustomPolicy(keyCode) && !isCustomSource) {
-            if (mNavBarEnabled && !navBarKey /* TODO> && !isADBVirtualKeyOrAnyOtherKeyThatWeNeedToHandleAKAWhenMonkeyTestOrWHATEVER! */) {
+            if (mNavbarVisible && !navBarKey /* TODO> && !isADBVirtualKeyOrAnyOtherKeyThatWeNeedToHandleAKAWhenMonkeyTestOrWHATEVER! */) {
                 if (DEBUG_INPUT) {
-                    Log.d(TAG, "interceptKeyBeforeQueueing(): key policy: mNavBarEnabled, discard hw event.");
+                    Log.d(TAG, "interceptKeyBeforeQueueing(): key policy: mNavbarVisible, discard hw event.");
                 }
                 // Don't allow key events from hw keys when navbar is enabled.
                 return 0;
@@ -8757,11 +8757,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         return mTranslucentDecorEnabled;
     }
 
-    // Use this instead of checking config_showNavigationBar so that it can be consistently
-    // overridden by qemu.hw.mainkeys in the emulator.
+    // Navigation bar visibility is dynamically configured in settings now
     @Override
     public boolean hasNavigationBar() {
-        return mHasNavigationBar || mNavBarEnabled;
+        return mNavbarVisible;
     }
 
     @Override
