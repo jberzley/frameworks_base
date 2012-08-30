@@ -335,7 +335,6 @@ interface IWindowManager
      */
     boolean needsNavigationBar();
 
-
     /**
      * Called by System UI to notify of changes to the visibility of Recents.
      */
