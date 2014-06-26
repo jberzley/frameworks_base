@@ -193,6 +193,8 @@ public final class PowerManagerService extends SystemService
 
     private static final int BUTTON_ON_DURATION = 5 * 1000;
 
+    private static final float PROXIMITY_NEAR_THRESHOLD = 5.0f;
+
     private final Context mContext;
     private final ServiceThread mHandlerThread;
     private final PowerManagerHandler mHandler;
@@ -3203,6 +3205,10 @@ public final class PowerManagerService extends SystemService
                     break;
                 case MSG_CHECK_FOR_LONG_WAKELOCKS:
                     checkForLongWakeLocks();
+
+                case MSG_WAKE_UP:
+                    cleanupProximity();
+                    ((Runnable) msg.obj).run();
                     break;
                 case MSG_WAKE_UP:
                     cleanupProximity();
