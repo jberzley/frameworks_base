@@ -2331,7 +2331,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     /**
      * Return whether there are any clearable notifications
      */
-    private boolean hasActiveClearableNotifications() {
+    public boolean hasActiveClearableNotifications() {
         int childCount = mStackScroller.getChildCount();
         for (int i = 0; i < childCount; i++) {
             View child = mStackScroller.getChildAt(i);
@@ -2396,6 +2396,14 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 mCarrierLabel.setVisibility(View.GONE);
             }
         }
+    }
+
+    protected boolean hasActiveOngoingNotifications() {
+        return mNotificationData.hasActiveOngoingNotifications();
+    }
+
+    protected boolean hasActiveVisibleNotifications() {
+        return mNotificationData.hasActiveClearableNotifications();
     }
 
     @Override
