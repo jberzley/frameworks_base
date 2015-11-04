@@ -51,6 +51,7 @@ import com.android.systemui.statusbar.phone.TickerView;
 import com.android.systemui.statusbar.SignalClusterView;
 import com.android.systemui.statusbar.StatusBarIconView;
 import com.android.systemui.statusbar.policy.Clock;
+import com.android.systemui.statusbar.policy.NetworkTraffic;
 import com.android.systemui.tuner.TunerService;
 import com.android.systemui.tuner.TunerService.Tunable;
 
@@ -94,6 +95,7 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
 
     // Deso Logo
     private ImageView mDesoLogo;
+    private NetworkTraffic mNetworkTraffic;
 
     private int mIconSize;
     private int mIconHPadding;
@@ -161,6 +163,7 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
         mDesoLogo = (ImageView) statusBar.findViewById(R.id.deso_logo);
 
         mCarrierLabel = (TextView) statusBar.findViewById(R.id.statusbar_carrier_text);
+        mNetworkTraffic = (NetworkTraffic) statusBar.findViewById(R.id.networkTraffic);
         mDarkModeIconColorSingleTone = context.getColor(R.color.dark_mode_icon_color_single_tone);
         mLightModeIconColorSingleTone = context.getColor(R.color.light_mode_icon_color_single_tone);
         mHandler = new Handler();
@@ -597,6 +600,7 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
         if (mNotificationTicker != null) mNotificationTicker.setDarkIntensity(mDarkIntensity);
         mDesoLogo.setImageTintList(ColorStateList.valueOf(mIconTint));
         mCarrierLabel.setTextColor(getTint(mTintArea, mCarrierLabel, mIconTint));
+	mNetworkTraffic.setDarkIntensity(mDarkIntensity);
     }
 
     public void appTransitionPending() {
