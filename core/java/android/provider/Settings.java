@@ -2932,6 +2932,12 @@ public final class Settings {
         public static final String VOLUME_NOTIFICATION = "volume_notification";
 
         /**
+         * Boolean value whether to link ringtone and notification volume
+         * @hide
+         */
+        public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
+
+        /**
          * Bluetooth Headset volume. This is used internally, changing this value will
          * not change the volume. See AudioManager.
          *
