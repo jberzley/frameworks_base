@@ -38,6 +38,7 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.graphics.drawable.StopMotionVectorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -186,10 +187,10 @@ public class BatteryMeterDrawable extends Drawable implements
         final int resId = getBatteryDrawableStyleResourceForStyle(style);
         PorterDuff.Mode xferMode = PorterDuff.Mode.XOR;
         if (resId != 0) {
-            TypedArray a = mContext.obtainStyledAttributes(resId, attrs);
+            TypedArray a = mContext.obtainStyledAttributes(
+                    getBatteryDrawableStyleResourceForStyle(style), attrs);
             mTextGravity = a.getInt(0, Gravity.CENTER);
             xferMode = PorterDuff.intToMode(a.getInt(1, PorterDuff.modeToInt(PorterDuff.Mode.XOR)));
-            a.recycle();
         } else {
             mTextGravity = Gravity.CENTER;
         }
@@ -393,11 +394,6 @@ public class BatteryMeterDrawable extends Drawable implements
 
     @Override
     public void draw(Canvas c) {
-        final boolean showChargingAnim
-                = mContext.getResources().getBoolean(R.bool.config_show_battery_charging_anim);
-        final int level = showChargingAnim
-                ? updateChargingAnimLevel()
-                : mLevel;
         if (!mInitialized) {
             init();
         }
@@ -433,14 +429,8 @@ public class BatteryMeterDrawable extends Drawable implements
     }
 
     private void loadBatteryDrawables(Resources res, int style) {
-        try {
-            checkBatteryMeterDrawableValid(res, style);
-        } catch (BatteryMeterDrawableException e) {
-            Log.w(TAG, "Invalid themed battery meter drawable, falling back to system", e);
-        }
-
         final int drawableResId = getBatteryDrawableResourceForStyle(style);
-        mBatteryDrawable = (LayerDrawable) res.getDrawable(drawableResId, null);
+        mBatteryDrawable = (LayerDrawable) res.getDrawable(drawableResId);
         mFrameDrawable = mBatteryDrawable.findDrawableByLayerId(R.id.battery_frame);
         mFrameDrawable.setTint(mCurrentBackgroundColor != 0
                 ? mCurrentBackgroundColor : res.getColor(R.color.batterymeter_frame_color));
@@ -454,7 +444,7 @@ public class BatteryMeterDrawable extends Drawable implements
         final int resId = getBatteryDrawableResourceForStyle(style);
         final Drawable batteryDrawable;
         try {
-            batteryDrawable = res.getDrawable(resId, null);
+            batteryDrawable = res.getDrawable(resId);
         } catch (Resources.NotFoundException e) {
             throw new BatteryMeterDrawableException(res.getResourceName(resId) + " is an " +
                     "invalid drawable", e);
@@ -499,6 +489,10 @@ public class BatteryMeterDrawable extends Drawable implements
 
     private int getBatteryDrawableResourceForStyle(final int style) {
         switch (style) {
+            case BATTERY_STYLE_LANDSCAPE:
+                return R.drawable.ic_battery_landscape;
+            case BATTERY_STYLE_CIRCLE:
+                return R.drawable.ic_battery_circle;
             case BATTERY_STYLE_PORTRAIT:
                 return R.drawable.ic_battery_portrait;
             default:
@@ -508,6 +502,10 @@ public class BatteryMeterDrawable extends Drawable implements
 
     private int getBatteryDrawableStyleResourceForStyle(final int style) {
         switch (style) {
+            case BATTERY_STYLE_LANDSCAPE:
+                return R.style.BatteryMeterViewDrawable_Landscape;
+            case BATTERY_STYLE_CIRCLE:
+                return R.style.BatteryMeterViewDrawable_Circle;
             case BATTERY_STYLE_PORTRAIT:
                 return R.style.BatteryMeterViewDrawable_Portrait;
             default:

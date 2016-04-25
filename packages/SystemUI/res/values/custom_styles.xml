@@ -25,7 +25,11 @@
 
     <!-- Battery meter drawable styles -->
     <style name="BatteryMeterViewDrawable.Portrait"/>
-
+    <style name="BatteryMeterViewDrawable.Landscape"/>
+    <style name="BatteryMeterViewDrawable.Circle">
+        <item name="blendMode">overlay</item>
+    </style>
+    
     <!-- Status bar notification ticker -->
     <style name="TextAppearance.StatusBar.PhoneTicker"
         parent="@*android:style/TextAppearance.StatusBar.Ticker">
