@@ -397,7 +397,6 @@ public class BatteryMeterDrawable extends Drawable implements
         if (!mInitialized) {
             init();
         }
-
         drawBattery(c);
     }
 
