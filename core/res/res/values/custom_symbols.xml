@@ -57,4 +57,5 @@
   <java-symbol type="anim" name="recent_screen_enter" />
   <java-symbol type="anim" name="recent_screen_enter_left" />
   <java-symbol type="anim" name="recent_screen_fade_out" />
+
 </resources>
