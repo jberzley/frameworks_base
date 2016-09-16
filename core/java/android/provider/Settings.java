@@ -3618,6 +3618,13 @@ public final class Settings {
          */
         public static final String BUTTON_BRIGHTNESS_ENABLED = "button_brightness_enabled";
 
+
+        /**
+         * Enable double tap gesture anywhere on the lock screen put device to sleep
+         * @hide
+         */
+        public static final String DOUBLE_TAP_SLEEP_LOCK_SCREEN = "double_tap_sleep_lock_screen";
+
         /**
          * Action to perform when the home key is long-pressed.
          * (Default can be configured via config_longPressOnHardwareHomeBehavior)
