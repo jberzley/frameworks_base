@@ -22,4 +22,7 @@
     <string name="status_bar_deso_logo_title">Desolation logo</string>
     <string name="status_bar_deso_logo_summary">Enable to show Desolation logo on the left side of the statusbar</string>
 
+    <!-- Navbar tuner -->
+    <string name="navbar_tuner_title">Navbar tuner</string>
+
 </resources>
