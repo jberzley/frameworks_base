@@ -3769,6 +3769,11 @@ public final class Settings {
          */
         public static final String DOUBLE_TAP_SLEEP_LOCK_SCREEN = "double_tap_sleep_lock_screen";
 
+        /**
+         * Whether to allow one finger quick settings expansion on the left or right side of the statusbar.
+         * @hide
+         */
+        public static final String STATUS_BAR_QUICK_QS_PULLDOWN = "status_bar_quick_qs_pulldown";
 
         /**
          * Show or hide clock
