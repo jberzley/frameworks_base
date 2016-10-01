@@ -3853,6 +3853,12 @@ public final class Settings {
         }
 
         /**
+         * whether to enable torch on lockscreen
+         * @hide
+         */
+        public static final String KEYGUARD_TOGGLE_TORCH = "keyguard_toggle_torch";
+
+        /**
          * These are all hidden system settings.
          *
          * @hide
