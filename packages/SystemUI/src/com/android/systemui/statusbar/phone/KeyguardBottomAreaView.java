@@ -42,6 +42,7 @@ import android.os.RemoteException;
 import android.os.SystemProperties;
 import android.os.UserHandle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.service.media.CameraPrewarmService;
 import android.telecom.TelecomManager;
 import android.util.AttributeSet;
@@ -313,7 +314,8 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
         ResolveInfo resolved = resolveCameraIntent();
         boolean visible = !isCameraDisabledByDpm() && resolved != null
                 && getResources().getBoolean(R.bool.config_keyguardShowCameraAffordance)
-                && mUserSetupComplete;
+                && mUserSetupComplete
+                && !hideShortcuts();
         mCameraImageView.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
 
@@ -321,7 +323,7 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
         mLeftIsVoiceAssist = canLaunchVoiceAssist();
         int drawableId;
         int contentDescription;
-        boolean visible = mUserSetupComplete;
+        boolean visible = mUserSetupComplete && !hideShortcuts();
         if (mLeftIsVoiceAssist) {
             drawableId = R.drawable.ic_mic_26dp;
             contentDescription = R.string.accessibility_voice_assist_button;
@@ -755,5 +757,12 @@ public class KeyguardBottomAreaView extends FrameLayout implements View.OnClickL
     public void onKeyguardShowingChanged() {
         updateLeftAffordance();
         inflateCameraPreview();
+    }
+
+    private boolean hideShortcuts() {
+        boolean secure = mLockPatternUtils.isSecure(KeyguardUpdateMonitor.getCurrentUser());
+        return secure && Settings.Secure.getIntForUser(
+                mContext.getContentResolver(), Settings.Secure.LOCK_QS_DISABLED, 0,
+                KeyguardUpdateMonitor.getCurrentUser()) != 0;
     }
 }
