@@ -7145,6 +7145,13 @@ public final class Settings {
          */
         public static final String DOZE_ENABLED = "doze_enabled";
 
+       /**
+         * Whether to show the keyguard visualizer.
+         * Boolean setting. 0 = off, 1 = on.
+         * @hide
+         */
+        public static final String LOCKSCREEN_VISUALIZER_ENABLED = "lockscreen_visualizer";
+
         /**
          * Enable single click to turn Bluetooth on or off.
          * @hide
