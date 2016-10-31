@@ -581,6 +581,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_SHOW_CARRIER),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.QS_LAYOUT_COLUMNS),
+                    false, this, UserHandle.USER_ALL);
             updateAll();
         }
 
@@ -620,6 +623,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mDesoLogo = Settings.System.getIntForUser(resolver,
                     Settings.System.STATUS_BAR_DESO_LOGO, 0, mCurrentUserId) == 1;
             showDesoLogo(mDesoLogo);
+            if (mHeader != null) {
+                mHeader.updateSettings();
+            }
 
         }
 
@@ -909,6 +915,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         } catch (RemoteException ex) {
             // no window manager? good luck with that
         }
+
+        mObserver.observe();
 
         // Lastly, call to the icon policy to install/update all the icons.
         mIconPolicy = new PhoneStatusBarPolicy(mContext, mIconController, mCastController,
