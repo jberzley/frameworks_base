@@ -430,6 +430,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private boolean mShowCarrierInPanel = false;
     boolean mExpandedVisible;
 
+    // Deso logo
+    private boolean mDesoLogo;
+    private ImageView desoLogo;
+
     private int mNavigationBarWindowState = WINDOW_STATE_SHOWING;
 
     private int mStatusBarHeaderHeight;
@@ -606,6 +610,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SCREEN_BRIGHTNESS_MODE),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_DESO_LOGO),
+                    false, this, UserHandle.USER_ALL);
             updateAll();
         }
 
@@ -623,9 +630,10 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
 
         private void updateAll() {
-            mClockLocation = Settings.System.getIntForUser(mContext.getContentResolver(),
+            ContentResolver resolver = mContext.getContentResolver();
+            mClockLocation = Settings.System.getIntForUser(resolver,
                     Settings.System.STATUSBAR_CLOCK_STYLE, 0, UserHandle.USER_CURRENT);
-            int mode = Settings.System.getIntForUser(mContext.getContentResolver(),
+            int mode = Settings.System.getIntForUser(resolver,
                             Settings.System.SCREEN_BRIGHTNESS_MODE,
                             Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL,
                             UserHandle.USER_CURRENT);
@@ -633,6 +641,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mBrightnessControl = Settings.System.getIntForUser(
                     resolver, Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0,
                     UserHandle.USER_CURRENT) == 1;
+
+            mDesoLogo = Settings.System.getIntForUser(resolver,
+                    Settings.System.STATUS_BAR_DESO_LOGO, 0, mCurrentUserId) == 1;
+            showDesoLogo(mDesoLogo);
+
         }
     };
 
@@ -651,8 +664,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
         }
     };
-
-    private SettingsObserver mObserver = new SettingsObserver(mHandler);
 
     private int mInteractingWindows;
     private boolean mAutohideSuspended;
@@ -4120,6 +4131,15 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
         }, cancelAction, afterKeyguardGone);
     }
+
+    public void showDesoLogo(boolean show) {
+          if (mStatusBarView == null) return;
+          ContentResolver resolver = mContext.getContentResolver();
+          desoLogo = (ImageView) mStatusBarView.findViewById(R.id.deso_logo);
+          if (desoLogo != null) {
+              desoLogo.setVisibility(show ? (mDesoLogo ? View.VISIBLE : View.GONE) : View.GONE);
+          }
+     }
 
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
