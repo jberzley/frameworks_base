@@ -19,6 +19,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.ContentResolver;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,6 +33,7 @@ import android.support.v7.preference.Preference.OnPreferenceChangeListener;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.support.v7.preference.PreferenceScreen;
 
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.logging.MetricsProto.MetricsEvent;
@@ -49,11 +51,23 @@ public class TunerFragment extends PreferenceFragment {
 
     private static final int MENU_REMOVE = Menu.FIRST + 1;
 
+    private static final String STATUS_BAR_DESO_LOGO = "status_bar_deso_logo";
+
+    private SwitchPreference mDesoLogo;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setHasOptionsMenu(true);
+
+        PreferenceScreen prefSet = getPreferenceScreen();
+
+        final ContentResolver resolver = getActivity().getContentResolver();
+
+        mDesoLogo = (SwitchPreference) findPreference(STATUS_BAR_DESO_LOGO);
+        mDesoLogo.setChecked((Settings.System.getInt(resolver,
+                Settings.System.STATUS_BAR_DESO_LOGO, 0) == 1));
     }
 
     @Override
@@ -75,7 +89,7 @@ public class TunerFragment extends PreferenceFragment {
     }
 
     @Override
-    public void onResume() {
+   public void onResume() {
         super.onResume();
         getActivity().setTitle(R.string.system_ui_tuner);
 
@@ -126,5 +140,15 @@ public class TunerFragment extends PreferenceFragment {
                         }
                     }).show();
         }
+    }
+
+    public boolean onPreferenceTreeClick(Preference preference) {
+        if  (preference == mDesoLogo) {
+            boolean checked = ((SwitchPreference)preference).isChecked();
+            Settings.System.putInt(getActivity().getContentResolver(),
+                    Settings.System.STATUS_BAR_DESO_LOGO, checked ? 1:0);
+            return true;
+          }
+        return super.onPreferenceTreeClick(preference);
     }
 }
