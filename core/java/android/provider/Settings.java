@@ -3998,6 +3998,11 @@ public final class Settings {
          */
         public static final String RECENT_CARD_BG_COLOR = "recent_card_bg_color";
 
+        /**
+         * Statusbar Deso logo
+         * @hide
+         */
+        public static final String STATUS_BAR_DESO_LOGO = "status_bar_deso_logo";
 
         /**
          * Custom icon pack name to use for Slim Recents
