@@ -3859,6 +3859,12 @@ public final class Settings {
         public static final String KEYGUARD_TOGGLE_TORCH = "keyguard_toggle_torch";
 
         /**
+         * Whether to show the negociated charger current in the lockscreen
+         * @hide
+         */
+        public static final String LOCKSCREEN_CHARGING_CURRENT = "lockscreen_charging_current";
+
+        /**
          * These are all hidden system settings.
          *
          * @hide
