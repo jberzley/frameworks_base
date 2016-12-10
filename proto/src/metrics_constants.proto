@@ -2261,5 +2261,11 @@ message MetricsEvent {
 
     // Omni
     AOKP = 747;
+
+    // OPEN: QS NFC tile shown
+    // ACTION: QS NFC tile tapped
+    // CATEGORY: QUICK_SETTINGS
+    QS_NFC = 748;
   }
+
 }
