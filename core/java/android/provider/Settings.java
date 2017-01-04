@@ -3723,6 +3723,11 @@ public final class Settings {
          */
         public static final String BUTTON_BRIGHTNESS_ENABLED = "button_brightness_enabled";
 
+        /**
+         * Whether to enable the pixel navbar animation
+         * @hide
+         */
+        public static final String PIXEL_NAV_ANIMATION = "pixel_nav_animation";
 
         /**
          * Enable double tap gesture anywhere on the lock screen put device to sleep
