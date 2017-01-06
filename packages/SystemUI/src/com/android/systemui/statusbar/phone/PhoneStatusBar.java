@@ -162,6 +162,7 @@ import com.android.systemui.keyguard.KeyguardViewMediator;
 import com.android.systemui.navigation.NavigationController;
 import com.android.systemui.navigation.Navigator;
 import com.android.systemui.qs.QSContainer;
+import com.android.systemui.omni.StatusBarHeaderMachine;
 import com.android.systemui.qs.QSPanel;
 import com.android.systemui.recents.ScreenPinningRequest;
 import com.android.systemui.recents.events.EventBus;
@@ -465,6 +466,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     int mInitialTouchX;
     int mInitialTouchY;
 
+    // omni additions
+    private StatusBarHeaderMachine mStatusBarHeaderMachine;
+
     // for disabling the status bar
     int mDisabled1 = 0;
     int mDisabled2 = 0;
@@ -637,7 +641,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                   Settings.System.QS_FOOTER_WARNINGS),
                   false, this, UserHandle.USER_ALL);
-            updateAll();
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_CUSTOM_HEADER_SHADOW),
+                    false, this, UserHandle.USER_ALL);
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_CUSTOM_HEADER),
+                    false, this, UserHandle.USER_ALL);
+            update();
         }
 
         @Override
@@ -4280,6 +4290,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mLockscreenWallpaper.setCurrentUser(newUserId);
         mScrimController.setCurrentUser(newUserId);
         updateMediaMetaData(true, false);
+        mStatusBarHeaderMachine.updateEnablement();
     }
 
     private void setControllerUsers() {
