@@ -105,4 +105,9 @@
     <!-- Android Auto 2.0x QS tile -->
     <string name="quick_settings_androidauto_label">Android Auto</string>
 
+    <!-- Ambient display and lift gesture Tile -->
+    <string name="quick_settings_doze_notifications_label">Doze notifications</string>
+    <string name="quick_settings_doze_notifications_user">Doze notifications</string>
+    <string name="quick_settings_doze_notifications_off">No doze notifications</string>
+
 </resources>
