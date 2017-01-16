@@ -3966,6 +3966,12 @@ public final class Settings {
         public static final String USE_SLIM_RECENTS = "use_slim_recents";
 
         /**
+         * Number of qs columns on landscape orientation
+         * @hide
+         */
+        public static final String QS_LAYOUT_COLUMNS_LANDSCAPE = "qs_layout_columns_landscape";
+
+        /**
          * Whether to only show actually running tasks
          * @hide
          */
@@ -4086,6 +4092,7 @@ public final class Settings {
          public static final String SWAP_VOLUME_BUTTONS = "swap_volume_buttons";
 
         /**
+         * Number of qs columns on portrait orientation
          * @hide
          */
         public static final String QS_LAYOUT_COLUMNS = "qs_layout_columns";
