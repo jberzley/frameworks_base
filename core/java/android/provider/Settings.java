@@ -6602,6 +6602,12 @@ public final class Settings {
         public static final int INCALL_BACK_BUTTON_BEHAVIOR_NONE = 0x0;
 
         /**
+         * Whether to use one tap QS tile action to enable or disable mobile data, wifi, and bluetooth
+         * @hide
+         */
+        public static final String QS_EASY_TOGGLE = "qs_easy_toggle";
+
+        /**
          * INCALL_BACK_BUTTON_BEHAVIOR value for "hang up".
          * @hide
          */
