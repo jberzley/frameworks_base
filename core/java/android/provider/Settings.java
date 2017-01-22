@@ -3964,6 +3964,18 @@ public final class Settings {
                 "volume_keys_control_media_stream";
 
         /**
+         * Dashboard portrait columns in settings
+         * @hide
+         */
+        public static final String DASHBOARD_PORTRAIT_COLUMNS = "dashboard_portrait_columns";
+
+        /**
+         * Dashboard landscape columns in settings
+         * @hide
+         */
+        public static final String DASHBOARD_LANDSCAPE_COLUMNS = "dashboard_landscape_columns";
+
+        /**
          * Recent panel background color
          *
          * @hide
