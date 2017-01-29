@@ -8517,16 +8517,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mKeyguardDelegate.dump(prefix, pw);
         }
     }
-<<<<<<< HEAD
-=======
-
-    private void checkSettings() {
-        mScreenshotDelay = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.SCREENSHOT_DELAY, 100);
-    }
 
     public void freezeOrThawRotation(int rotation) {
         mDesiredRotation = rotation;
     }
->>>>>>> 8086fa87190... Add new feature of One-hand UI Mode [1/3]
 }
