@@ -836,15 +836,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mIsTorchActive;
     private boolean mWasTorchActive;
 
-<<<<<<< HEAD
-=======
-    private HardkeyActionHandler mKeyHandler;
-
-    private boolean mHasPermanentMenuKey;
-
     int mDesiredRotation = -1;
 
->>>>>>> 8086fa87190... Add new feature of One-hand UI Mode [1/3]
     private class PolicyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -9147,16 +9140,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mKeyguardDelegate.dump(prefix, pw);
         }
     }
-<<<<<<< HEAD
-=======
-
-    private void checkSettings() {
-        mScreenshotDelay = Settings.System.getInt(mContext.getContentResolver(),
-                Settings.System.SCREENSHOT_DELAY, 100);
-    }
 
     public void freezeOrThawRotation(int rotation) {
         mDesiredRotation = rotation;
     }
->>>>>>> 8086fa87190... Add new feature of One-hand UI Mode [1/3]
 }
