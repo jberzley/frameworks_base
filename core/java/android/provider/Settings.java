@@ -3973,6 +3973,19 @@ public final class Settings {
 
         /**
          * Whether to only show actually running tasks
+         * Number of qs rows on portrait orientation
+         * @hide
+         */
+        public static final String QS_LAYOUT_ROWS = "qs_layout_rows";
+
+        /**
+         * Number of qs rows on landscape orientation
+         * @hide
+         */
+        public static final String QS_LAYOUT_ROWS_LANDSCAPE = "qs_layout_rows_landscape";
+
+        /**
+         * Whether to only show actually running tasks
          * @hide
          */
         public static final String RECENT_SHOW_RUNNING_TASKS = "show_running_tasks";
