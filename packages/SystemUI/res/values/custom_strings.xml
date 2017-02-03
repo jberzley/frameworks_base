@@ -41,4 +41,7 @@
     <string name="screenrecord_notif_pointer_off">Hide pointer</string>
     <!-- Screen record notification error title -->
     <string name="screenrecord_notif_error">Unable to record screen</string>
+
+    <!-- accessibility label for button to open running apps prefscreen [CHAR LIMIT=NONE] -->
+    <string name="accessibility_quick_settings_running_services">Open Running Services screen.</string>
 </resources>
