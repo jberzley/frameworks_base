@@ -193,6 +193,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     protected void updateSettingsAnimator() {
         mSettingsAlpha = new TouchAnimator.Builder()
                 .addFloat(mEdit, "alpha", 0, 1)
+                .addFloat(mRunningServicesButton, "alpha", 0, 1)
                 .addFloat(mMultiUserSwitch, "alpha", 0, 1)
                 .build();
 
@@ -297,7 +298,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
                 ? View.VISIBLE : View.INVISIBLE);
         mSettingsContainer.findViewById(R.id.tuner_icon).setVisibility(
                 TunerService.isTunerEnabled(mContext) ? View.VISIBLE : View.INVISIBLE);
-        mRunningServicesButton.setVisibility(View.VISIBLE);
+        mRunningServicesButton.setVisibility(mExpanded ? View.VISIBLE : View.INVISIBLE);
         final boolean isDemo = UserManager.isDeviceInDemoMode(mContext);
         mMultiUserSwitch.setVisibility(mExpanded && mMultiUserSwitch.hasMultipleUsers() && !isDemo
                 ? View.VISIBLE : View.INVISIBLE);
