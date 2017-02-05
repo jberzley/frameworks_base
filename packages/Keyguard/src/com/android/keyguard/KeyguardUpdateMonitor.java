@@ -612,7 +612,10 @@ public class KeyguardUpdateMonitor implements TrustManager.TrustListener {
     }
 
     public boolean isUnlockingWithFingerprintAllowed() {
-        return true;
+        return (mStrongAuthTracker.isUnlockingWithFingerprintAllowed()
+                && !hasFingerprintUnlockTimedOut(sCurrentUser))
+                || (Settings.System.getInt(mContext.getContentResolver(),
+                   Settings.System.FP_UNLOCK_KEYSTORE, 0) == 1);
     }
 
     public boolean needsSlowUnlockTransition() {
