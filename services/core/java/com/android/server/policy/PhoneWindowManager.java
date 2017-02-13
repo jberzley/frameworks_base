@@ -1578,7 +1578,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     private void powerLongPress() {
         if (!mTorchEnabled || isScreenOn()) {
-            final int behavior = getResolvedLongPressOnPowerBehavior();
+            int behavior = getResolvedLongPressOnPowerBehavior();
             switch (behavior) {
             case LONG_PRESS_POWER_NOTHING:
                 break;
