@@ -53,4 +53,8 @@
     <integer-array name="qboost_weak_param_value"/>
 
     <integer name="fpunlockboost_duration">700</integer>
+
+    <!-- Config IME switcher -->
+    <bool name="config_show_IMESwitcher">true</bool>
+
 </resources>

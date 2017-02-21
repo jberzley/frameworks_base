@@ -4468,12 +4468,17 @@ public final class Settings {
          */
         public static final String LOCKSCREEN_MAX_NOTIF_CONFIG = "lockscreen_max_notif_config";
 
-
         /**
          *
          * @hide
          */
         public static final String PULSE_CHARGING_DURATION = "pulse_charging_duration";
+
+        /**
+         * Whether to show the IME switcher in the status bar
+         * @hide
+         */
+        public static final String STATUS_BAR_IME_SWITCHER = "status_bar_ime_switcher";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
