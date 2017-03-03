@@ -27,4 +27,6 @@
     <string name="quick_settings_heads_up_off">Peek notifications disabled</string>
     <string name="quick_settings_heads_up">Peek notifications</string>
 
+    <string name="pirate_label">Aaarrrggghhh</string>
+    <string name="pirate_spec">pirate</string>
 </resources>
