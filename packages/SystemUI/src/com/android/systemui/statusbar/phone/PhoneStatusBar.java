@@ -528,7 +528,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
                   Settings.System.STATUS_BAR_SHOW_TICKER),
                   false, this, UserHandle.USER_ALL);
-           resolver.registerContentObserver(Settings.System.getUriFor(
+            mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
                   Settings.System.STATUSBAR_CLOCK_STYLE),
                   false, this, UserHandle.USER_ALL);
             updateAll();
@@ -548,7 +548,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
 
         private void updateAll() {
-            mClockLocation = Settings.System.getIntForUser(resolver,
+            mClockLocation = Settings.System.getIntForUser(mContext.getContentResolver(),
                     Settings.System.STATUSBAR_CLOCK_STYLE, 0, UserHandle.USER_CURRENT);
         }
     };
@@ -989,8 +989,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         mTickerEnabled = Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.STATUS_BAR_SHOW_TICKER,
-                mContext.getResources().getBoolean(R.bool.enable_ticker)
-                        ? 1 : 1, UserHandle.USER_CURRENT) == 1;
+                0, UserHandle.USER_CURRENT) == 1;
         initTickerView();
 
         // set the initial view visibility
