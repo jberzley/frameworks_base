@@ -12,8 +12,4 @@
      limitations under the License.
 -->
 <resources>
-    <!-- Set to true to enable the classic notification ticker that scrolls
-         Notification.tickerText across the status bar for what seems like an
-         eternity. -->
-    <bool name="enable_ticker">true</bool>
 </resources>
