@@ -23,4 +23,8 @@
     <string name="battery_portrait_path_empty" translatable="false">M 5 21 H 19 V 21 H 5 V 21 Z</string>
     <string name="battery_portrait_clip_path" translatable="false">M6,21V4h3V2h6v2h3v17H6z</string>
 
+    <string name="quick_settings_heads_up_on">Peek notifications allowed</string>
+    <string name="quick_settings_heads_up_off">Peek notifications disabled</string>
+    <string name="quick_settings_heads_up">Peek notifications</string>
+
 </resources>
