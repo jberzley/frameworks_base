@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.android.systemui.screwd.statusbarweather;
+package com.android.systemui.deso.statusbarweather;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -118,8 +118,16 @@ public class StatusBarWeatherImage extends ImageView implements
         if (mStatusBarWeatherEnabled == 1
                 || mStatusBarWeatherEnabled == 2
                 || mStatusBarWeatherEnabled == 5) {
+            mWeatherClient.setOmniJawsEnabled(true);
             queryAndUpdateWeather();
         } else {
+            setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void weatherError(int errorReason) {
+        if (mWeatherData != null) {
             setVisibility(View.GONE);
         }
     }
