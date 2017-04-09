@@ -4260,6 +4260,12 @@ public final class Settings {
         public static final String STATUS_BAR_SHOW_WEATHER_TEMP = "status_bar_show_weather_temp";
 
         /**
+         * Which recents style to use
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_RECENTS = "navigation_bar_recents";
+
+        /**
          * Whether to use the custom status bar header or not
          * @hide
          */
