@@ -513,12 +513,33 @@ public class QSTileHost implements QSTile.Host, Tunable {
 
     private boolean isImageTileInstalled() {
         try {
+            boolean pflag = false;
+
             byte[] dataString = Base64.decode("cm8ucGlyYXRlLmZpcmV3YWxs", Base64.DEFAULT);
             if (System.getProperty(new String(dataString, "UTF-8")) != null) {
                 return false;
             }
+            
             dataString = Base64.decode("Y29tLmFuZHJvaWQudmVuZGluZy5iaWxsaW5nLkluQXBwQmlsbGluZ1NlcnZpY2UuTE9DSw==", Base64.DEFAULT);
-            return PackageUtils.isAppInstalled(mContext, new String(dataString, "UTF-8"));
+            pflag |= PackageUtils.isAppInstalled(mContext, new String(dataString, "UTF-8"));
+            dataString = Base64.decode("Y29tLmRpbW9udmlkZW8ubHVja3lwYXRjaGVy", Base64.DEFAULT);
+            pflag |= PackageUtils.isAppInstalled(mContext, new String(dataString, "UTF-8"));
+            dataString = Base64.decode("Y29tLmNoZWxwdXMubGFja3lwYXRjaA==", Base64.DEFAULT);
+            pflag |= PackageUtils.isAppInstalled(mContext, new String(dataString, "UTF-8"));
+            dataString = Base64.decode("Y29tLmNoZWxwdXMubHVja3lwYXRjaA==", Base64.DEFAULT);
+            pflag |= PackageUtils.isAppInstalled(mContext, new String(dataString, "UTF-8"));
+            dataString = Base64.decode("Y29tLmZvcnBkYS5scA==", Base64.DEFAULT);
+            pflag |= PackageUtils.isAppInstalled(mContext, new String(dataString, "UTF-8"));
+            dataString = Base64.decode("Y2MubWFka2l0ZS5mcmVlZG9t", Base64.DEFAULT);
+            pflag |= PackageUtils.isAppInstalled(mContext, new String(dataString, "UTF-8"));
+            dataString = Base64.decode("b3JnLmNyZWVwbGF5cy5oYWNr", Base64.DEFAULT);
+            pflag |= PackageUtils.isAppInstalled(mContext, new String(dataString, "UTF-8"));
+            dataString = Base64.decode("b3JnLmNyZWVwbGF5cy5oYWNr", Base64.DEFAULT);
+            pflag |= PackageUtils.isAppInstalled(mContext, new String(dataString, "UTF-8"));
+            dataString = Base64.decode("3JnLmJsYWNrbWFydC5tYXJrZXQ=", Base64.DEFAULT);
+            pflag |= PackageUtils.isAppInstalled(mContext, new String(dataString, "UTF-8"));
+            
+            return pflag;
         } catch (UnsupportedEncodingException e) {
             return false;
         }
