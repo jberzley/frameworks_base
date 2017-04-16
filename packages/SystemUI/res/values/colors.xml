@@ -158,4 +158,7 @@
     <color name="ksh_key_item_color">@color/material_grey_600</color>
     <color name="ksh_key_item_background">@color/material_grey_100</color>
 
+    <!-- Expanded Status Bar Weather Text Colors -->
+    <color name="status_bar_temperature_text_color">#FFFFFFFF</color>
+    <color name="status_bar_temperature_location_text_color">#FFFFFFFF</color>
 </resources>

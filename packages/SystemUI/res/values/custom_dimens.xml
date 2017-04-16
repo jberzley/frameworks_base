@@ -37,4 +37,6 @@
     <!-- Membar spacing -->
     <dimen name="recents_membar_spacing">12dp</dimen>
 
+    <!-- Expanded Status Bar Weather Text -->
+    <dimen name="weather_text_size">10sp</dimen>
 </resources>

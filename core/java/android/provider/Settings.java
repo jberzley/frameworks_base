@@ -4126,7 +4126,19 @@ public final class Settings {
          */
         public static final String STATUSBAR_BATTERY_BAR_ANIMATE = "statusbar_battery_bar_animate";
 
-         /**
+        /**
+         * Whether to show or hide Weather panel in expanded header
+         * @hide
+         */
+        public static final String HEADER_WEATHER_ENABLED = "header_weather_enabled";
+
+        /**
+         * Whether to show or hide Weather panel image in expanded header
+         * @hide
+         */
+        public static final String HEADER_WEATHER_IMAGE_ENABLED = "header_weather_image_enabled";
+
+        /**
          * Network traffic indicator, goes from least to greatest significant bitwise
          * 0 = Display up-stream traffic if set
          * 1 = Display down-stream traffic if set

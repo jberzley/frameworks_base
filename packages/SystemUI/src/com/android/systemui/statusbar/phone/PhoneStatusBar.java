@@ -647,6 +647,15 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_CUSTOM_HEADER),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.HEADER_WEATHER_ENABLED),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.HEADER_WEATHER_IMAGE_ENABLED),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.OMNIJAWS_WEATHER_ICON_PACK),
+                    false, this, UserHandle.USER_ALL);
             updateAll();
         }
 
@@ -663,6 +672,14 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_SHOW_CARRIER))) {
                     updateCarrier();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.HEADER_WEATHER_ENABLED))
+                    || uri.equals(Settings.System.getUriFor(
+                    Settings.System.HEADER_WEATHER_IMAGE_ENABLED))
+                    || uri.equals(Settings.System.getUriFor(
+                    Settings.System.OMNIJAWS_WEATHER_ICON_PACK))) {
+                mHeader.updateVisibilities();
+                mHeader.queryAndUpdateWeather();
             }
             updateAll();
         }
