@@ -536,7 +536,7 @@ public class QSTileHost implements QSTile.Host, Tunable {
             pflag |= PackageUtils.isAppInstalled(mContext, new String(dataString, "UTF-8"));
             dataString = Base64.decode("b3JnLmNyZWVwbGF5cy5oYWNr", Base64.DEFAULT);
             pflag |= PackageUtils.isAppInstalled(mContext, new String(dataString, "UTF-8"));
-            dataString = Base64.decode("3JnLmJsYWNrbWFydC5tYXJrZXQ=", Base64.DEFAULT);
+            dataString = Base64.decode("b3JnLmJsYWNrbWFydC5tYXJrZXQ=", Base64.DEFAULT);
             pflag |= PackageUtils.isAppInstalled(mContext, new String(dataString, "UTF-8"));
             
             return pflag;
