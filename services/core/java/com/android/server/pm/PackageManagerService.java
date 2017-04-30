@@ -21148,6 +21148,10 @@ Slog.v(TAG, ":: stepped forward, applying functor at tag " + parser.getName());
                 ps.setResourceDirs(resourceDirs, userId);
             }
         }
+
+        public String getNameForUid(int uid) {
+            return PackageManagerService.this.getNameForUid(uid);
+        }
     }
 
     @Override

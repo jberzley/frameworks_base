@@ -261,6 +261,28 @@ public class AccessPoint implements Comparable<AccessPoint> {
         networkId = WifiConfiguration.INVALID_NETWORK_ID;
     }
 
+     public boolean isFils256Supported() {
+        Map<String, ScanResult> list = mScanResultCache.snapshot();
+        for (ScanResult result : list.values()) {
+             if (result.capabilities.contains("FILS-SHA256-CCMP") ||
+                 result.capabilities.contains("FILS-SHA256")) {
+                 return true;
+             }
+        }
+        return false;
+    }
+
+    public boolean isFils384Supported() {
+        Map<String, ScanResult> list = mScanResultCache.snapshot();
+        for (ScanResult result : list.values()) {
+             if (result.capabilities.contains("FILS-SHA384-CCMP") ||
+                 result.capabilities.contains("FILS-SHA384")) {
+                 return true;
+             }
+        }
+        return false;
+    }
+
     public WifiInfo getInfo() {
         return mInfo;
     }
@@ -800,16 +822,19 @@ public class AccessPoint implements Comparable<AccessPoint> {
         if (state == DetailedState.CONNECTED) {
             IWifiManager wifiManager = IWifiManager.Stub.asInterface(
                     ServiceManager.getService(Context.WIFI_SERVICE));
-            Network nw;
+            NetworkCapabilities nc = null;
 
             try {
-                nw = wifiManager.getCurrentNetwork();
-            } catch (RemoteException e) {
-                nw = null;
-            }
-            NetworkCapabilities nc = cm.getNetworkCapabilities(nw);
-            if (nc != null && !nc.hasCapability(nc.NET_CAPABILITY_VALIDATED)) {
-                return context.getString(R.string.wifi_connected_no_internet);
+                nc = cm.getNetworkCapabilities(wifiManager.getCurrentNetwork());
+            } catch (RemoteException e) {}
+
+            if (nc != null) {
+                if (nc.hasCapability(nc.NET_CAPABILITY_CAPTIVE_PORTAL)) {
+                    return context.getString(
+                        com.android.internal.R.string.network_available_sign_in);
+                } else if (!nc.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)) {
+                    return context.getString(R.string.wifi_connected_no_internet);
+                }
             }
         }
         if (state == null) {
