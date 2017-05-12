@@ -1234,7 +1234,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         boolean panic = mImmersiveModeConfirmation.onPowerKeyDown(interactive,
                 SystemClock.elapsedRealtime(), isImmersiveMode(mLastSystemUiFlags),
                 isNavBarEmpty(mLastSystemUiFlags));
-                SystemClock.elapsedRealtime(), isImmersiveMode(mLastSystemUiFlags));
 
         if (panic && !WindowManagerPolicyControl.isImmersiveFiltersActive()) {
             mHandler.post(mHiddenNavPanic);
@@ -4738,11 +4737,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             r.top = mForceImmersiveTop;
         }
         if ((pfl & PRIVATE_FLAG_NAV_HIDE_FORCED) != 0) {
-            if (mNavigationBarOnBottom) {
-                r.bottom = mForceImmersiveBottom;
-            } else {
+//            if (mNavigationBarOnBottom) {
+//                r.bottom = mForceImmersiveBottom;
+//           } else {
                 r.right = mForceImmersiveRight;
-            }
+//            }
         }
     }
 
@@ -8576,6 +8575,9 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         if (mKeyguardDelegate != null) {
             mKeyguardDelegate.dump(prefix, pw);
         }
+    }
+
+    private void checkSettings() {
     }
 
     public void freezeOrThawRotation(int rotation) {
