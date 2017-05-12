@@ -547,7 +547,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     UserHandle.USER_CURRENT) != 0;
             Log.d(TAG, "navbar is " + (mUseNavBar ? "enabled" : "disabled"));
             if (wasUsing != mUseNavBar) {
-                setNavBarEnabled(mUseNavBar);
                 if (mAssistManager != null) {
                     mAssistManager.onConfigurationChanged();
                 }
@@ -1026,14 +1025,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             mCarrierLabel.setVisibility(mShowCarrierInPanel ? View.VISIBLE : View.INVISIBLE);
         }
 
-        // make sure carrier label is not covered by navigation bar
-        if (mCarrierLabel != null && mNavigationBarView != null) {
-            MarginLayoutParams mlp = (MarginLayoutParams) mCarrierLabel.getLayoutParams();
-            if (mlp != null && mlp.bottomMargin < mNavigationBarView.mBarSize) {
-                mlp.bottomMargin = mNavigationBarView.mBarSize;
-                mCarrierLabel.setLayoutParams(mlp);
-            }
-        }
         mFlashlightController = new FlashlightController(mContext);
         mKeyguardBottomArea.setFlashlightController(mFlashlightController);
         mKeyguardBottomArea.setPhoneStatusBar(this);
@@ -1563,17 +1554,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             } catch (RemoteException e) {
                 // fine, stay asleep then
             }
-        }
-    }
-
-    private void setNavBarEnabled(boolean enabled) {
-        if (enabled) {
-            addNavigationBar();
-            if (RESET_SYSTEMUI_VISIBILITY_FOR_NAVBAR) {
-                resetSystemUIVisibility();
-            }
-        } else {
-            removeNavigationBar();
         }
     }
 
