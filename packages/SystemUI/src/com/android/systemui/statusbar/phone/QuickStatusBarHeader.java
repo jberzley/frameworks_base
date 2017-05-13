@@ -353,20 +353,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
                     mExpanded ? MetricsProto.MetricsEvent.ACTION_QS_EXPANDED_SETTINGS_LAUNCH
                             : MetricsProto.MetricsEvent.ACTION_QS_COLLAPSED_SETTINGS_LAUNCH);
             if (mSettingsButton.isTunerClick()) {
-                mHost.startRunnableDismissingKeyguard(() -> post(() -> {
-                    if (TunerService.isTunerEnabled(mContext)) {
-                        TunerService.showResetRequest(mContext, () -> {
-                            // Relaunch settings so that the tuner disappears.
-                            startSettingsActivity();
-                        });
-                    } else {
-                        Toast.makeText(getContext(), R.string.tuner_toast,
-                                Toast.LENGTH_LONG).show();
-                        TunerService.setTunerEnabled(mContext, true);
-                    }
-                    startSettingsActivity();
-
-                }));
+                 startDesoActivity();
             } else {
                 startSettingsActivity();
             }
@@ -377,6 +364,13 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         } else if (v == mDate) {
             startDateActivity();
         }
+    }
+
+    private void startDesoActivity() {
+        Intent desoIntent = new Intent(Intent.ACTION_MAIN);
+        desoIntent.setClassName("com.android.settings",
+            "com.android.settings.Settings$DesoSettingsActivity");
+        mActivityStarter.startActivity(desoIntent, true /* dismissShade */);
     }
 
     private void startClockActivity(AlarmManager.AlarmClockInfo alarm) {
