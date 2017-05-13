@@ -44,6 +44,7 @@ import android.app.StatusBarManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentCallbacks2;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -649,6 +650,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     };
 
+    private SettingsObserver mObserver = new SettingsObserver(mHandler);
+
     final private ContentObserver mNavBarObserver = new ContentObserver(mHandler) {
         @Override
         public void onChange(boolean selfChange) {
@@ -934,14 +937,13 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             // no window manager? good luck with that
         }
 
-        mObserver.observe();
-
         // Lastly, call to the icon policy to install/update all the icons.
         mIconPolicy = new PhoneStatusBarPolicy(mContext, mIconController, mCastController,
                 mHotspotController, mUserInfoController, mBluetoothController,
                 mRotationLockController, mNetworkController.getDataSaverController());
         mIconPolicy.setCurrentUserSetup(mUserSetup);
-        mSettingsObserver.onChange(false); // set up
+        mObserver.observe();
+        mObserver.onChange(false); // set up
 
         mHeadsUpObserver.onChange(true); // set up
         if (ENABLE_HEADS_UP) {

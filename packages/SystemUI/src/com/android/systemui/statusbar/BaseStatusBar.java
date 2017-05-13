@@ -1439,7 +1439,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected void hideRecents(boolean triggeredFromAltTab, boolean triggeredFromHomeKey) {
         if (mSlimRecents != null) {
             mSlimRecents.hideRecents(triggeredFromHomeKey);
-        else if (isOmniSwitchEnabled()) {
+        } else if (isOmniSwitchEnabled()) {
             Intent showIntent = new Intent(TeslaUtils.ACTION_HIDE_OVERLAY);
             mContext.sendBroadcastAsUser(showIntent, UserHandle.CURRENT);
         } else if (mRecents != null) {
@@ -1451,7 +1451,7 @@ public abstract class BaseStatusBar extends SystemUI implements
         if (mSlimRecents != null) {
             sendCloseSystemWindows(SYSTEM_DIALOG_REASON_RECENT_APPS);
             mSlimRecents.toggleRecents(mDisplay, mLayoutDirection, getStatusBarView());
-        else if (isOmniSwitchEnabled()) {
+        } else if (isOmniSwitchEnabled()) {
             Intent showIntent = new Intent(TeslaUtils.ACTION_TOGGLE_OVERLAY);
             mContext.sendBroadcastAsUser(showIntent, UserHandle.CURRENT);
         } else if (mRecents != null) {
@@ -1462,7 +1462,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected void preloadRecents() {
         if (mSlimRecents != null) {
             mSlimRecents.preloadRecentTasksList();
-        else if (!isOmniSwitchEnabled()) {
+        } else if (!isOmniSwitchEnabled()) {
             if (mRecents != null) {
                 mRecents.showNextAffiliatedTask();
             }
@@ -1482,7 +1482,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected void cancelPreloadingRecents() {
         if (mSlimRecents != null) {
             mSlimRecents.cancelPreloadingRecentTasksList();
-        else if (!isOmniSwitchEnabled()) {
+        } else if (!isOmniSwitchEnabled()) {
             if (mRecents != null) {
                 mRecents.showNextAffiliatedTask();
             }
