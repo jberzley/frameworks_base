@@ -19,7 +19,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     
     <!-- Deso Logo -->
-    <string name="status_bar_deso_logo_title">Tesla logo</string>
-    <string name="status_bar_deso_logo_summary">Enable to show Tesla logo on the left side of the statusbar</string>
+    <string name="status_bar_deso_logo_title">Desolation logo</string>
+    <string name="status_bar_deso_logo_summary">Enable to show Desolation logo on the left side of the statusbar</string>
 
 </resources>
