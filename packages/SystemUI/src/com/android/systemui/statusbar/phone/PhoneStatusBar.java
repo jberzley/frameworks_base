@@ -623,8 +623,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         @Override
         public void onChange(boolean selfChange, Uri uri) {
             super.onChange(selfChange, uri);
-            update();
-
             if (uri.equals(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_SHOW_TICKER))) {
                     mTickerEnabled = Settings.System.getIntForUser(
