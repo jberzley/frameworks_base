@@ -21,6 +21,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.android.systemui.R;
@@ -70,11 +71,13 @@ public class IconMerger extends LinearLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         // we need to constrain this to an integral multiple of our children
         int width = getMeasuredWidth();
+        final ViewGroup parent = (ViewGroup)getParent();
+        View label = parent.findViewById(R.id.statusbar_carrier_text);
         if (mCenterClock) {
-            final int totalWidth = mContext.getResources().getDisplayMetrics().widthPixels;
-            final int usableWidth = (totalWidth - mClockAndDateWidth - 2 * getFullIconWidth()) / 2;
-            if (width > usableWidth) {
-                width = usableWidth;
+            int totalWidth = getResources().getDisplayMetrics().widthPixels;
+            width = totalWidth / 2 - getFullIconWidth() * 2;
+            if (label.getVisibility() != View.GONE) {
+                width -= label.getWidth();
             }
         }
         setMeasuredDimension(width - (width % getFullIconWidth()), getMeasuredHeight());
