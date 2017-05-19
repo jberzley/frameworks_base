@@ -33,7 +33,7 @@ public class VolumeTile extends QSTile<QSTile.BooleanState> {
 
     @Override
     public int getMetricsCategory() {
-        return MetricsEvent.ABC;
+        return MetricsEvent.DESO;
     }
 
     @Override
