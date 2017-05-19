@@ -423,8 +423,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     int mMaxAllowedKeyguardNotifications;
 
     // carrier label
+    private int mShowCarrierLabel;
     private TextView mCarrierLabel;
-    private boolean mShowCarrierInPanel = false;
     boolean mExpandedVisible;
 
     // Deso logo
@@ -578,11 +578,17 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_DESO_LOGO),
                     false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_SHOW_CARRIER),
+                    false, this, UserHandle.USER_ALL);
             updateAll();
         }
 
         @Override
         public void onChange(boolean selfChange, Uri uri) {
+            super.onChange(selfChange, uri);
+            update();
+
             if (uri.equals(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_SHOW_TICKER))) {
                     mTickerEnabled = Settings.System.getIntForUser(
@@ -590,6 +596,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                             Settings.System.STATUS_BAR_SHOW_TICKER,
                             0, UserHandle.USER_CURRENT);
                     initTickerView();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_SHOW_CARRIER))) {
+                    updateCarrier();
             }
             updateAll();
         }
@@ -607,10 +616,18 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     resolver, Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0,
                     UserHandle.USER_CURRENT) == 1;
 
+            mShowCarrierLabel = Settings.System.getIntForUser(resolver,
+                    Settings.System.STATUS_BAR_SHOW_CARRIER, 1, UserHandle.USER_CURRENT);
+
             mDesoLogo = Settings.System.getIntForUser(resolver,
                     Settings.System.STATUS_BAR_DESO_LOGO, 0, mCurrentUserId) == 1;
             showDesoLogo(mDesoLogo);
 
+        }
+
+        void unobserve() {
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.unregisterContentObserver(this);
         }
     };
 
@@ -1122,13 +1139,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         initSignalCluster(mKeyguardStatusBar);
         initEmergencyCryptkeeperText();
 
-        mCarrierLabel = (TextView)mStatusBarWindow.findViewById(R.id.carrier_label);
-        final boolean showCarrierLabel = mContext.getResources().getBoolean(
-                R.bool.config_showCarrierLabel);
-        mShowCarrierInPanel = showCarrierLabel && (mCarrierLabel != null);
-        if (DEBUG) Log.v(TAG, "carrierlabel=" + mCarrierLabel + " show=" + mShowCarrierInPanel);
-        if (mShowCarrierInPanel) {
-            mCarrierLabel.setVisibility(mShowCarrierInPanel ? View.VISIBLE : View.INVISIBLE);
+        mCarrierLabel = (TextView) mStatusBarWindow.findViewById(R.id.statusbar_carrier_text);
+        if (mCarrierLabel != null) {
+            updateCarrier();
         }
 
         // make sure carrier label is not covered by navigation bar
@@ -2339,18 +2352,15 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         updateNotifications();
     }
 
-    protected void updateCarrierLabelVisibility() {
-        if (!mShowCarrierInPanel) return;
-
-        final boolean makeVisible = mStackScroller.getVisibility() == View.VISIBLE
-                && mState != StatusBarState.KEYGUARD;
-
-        if ((mCarrierLabel.getVisibility() == View.VISIBLE) != makeVisible) {
-            if (DEBUG) {
-                Log.d(TAG, "making carrier label " + (makeVisible?"visible":"invisible"));
+    private void updateCarrier() {
+        if (mCarrierLabel != null) {
+            if (mShowCarrierLabel == 2) {
+                mCarrierLabel.setVisibility(View.VISIBLE);
+            } else if (mShowCarrierLabel == 3) {
+                mCarrierLabel.setVisibility(View.VISIBLE);
+            } else {
+                mCarrierLabel.setVisibility(View.GONE);
             }
-
-            mCarrierLabel.setVisibility(makeVisible ? View.VISIBLE : View.INVISIBLE);
         }
     }
 
@@ -4972,7 +4982,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         updateStackScrollerState(goingToFullShade, fromShadeLocked);
         updateNotifications();
         checkBarModes();
-        updateCarrierLabelVisibility();
+        updateCarrier();
         updateMediaMetaData(false, mState != StatusBarState.KEYGUARD);
         mKeyguardMonitor.notifyKeyguardState(mStatusBarKeyguardViewManager.isShowing(),
                 mStatusBarKeyguardViewManager.isSecure(),
