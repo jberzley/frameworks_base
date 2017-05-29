@@ -347,6 +347,13 @@ final class DefaultPermissionGrantPolicy {
                 grantRuntimePermissionsLPw(storagePackage, STORAGE_PERMISSIONS, true, userId);
             }
 
+            // SystemUI Visualizer
+            PackageParser.Package systemUIPackage = getDefaultProviderAuthorityPackageLPr(
+                    "com.android.systemui", userId);
+            if (systemUIPackage != null) {
+                grantRuntimePermissionsLPw(systemUIPackage, MICROPHONE_PERMISSIONS, true, userId);
+            }
+
             // CertInstaller
             Intent certInstallerIntent = new Intent(Credentials.INSTALL_ACTION);
             PackageParser.Package certInstallerPackage = getDefaultSystemHandlerActivityPackageLPr(
