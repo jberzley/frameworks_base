@@ -66,6 +66,11 @@ public class AppWidgetProviderInfo implements Parcelable {
     public static final int WIDGET_CATEGORY_SEARCHBOX = 4;
 
     /**
+     * Indicates that the widget can be displayed within the second screen
+     */
+    public static final int WIDGET_CATEGORY_SECOND_SCREEN = 8;
+
+    /**
      * Identity of this AppWidget component.  This component should be a {@link
      * android.content.BroadcastReceiver}, and it will be sent the AppWidget intents
      * {@link android.appwidget as described in the AppWidget package documentation}.

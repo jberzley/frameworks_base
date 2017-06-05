@@ -27,6 +27,7 @@ import android.os.SystemProperties;
 import android.os.Trace;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -61,6 +62,8 @@ public class StatusBarWindowManager implements RemoteInputController.Callback {
     private final float mScreenBrightnessDoze;
     private final State mCurrentState = new State();
 
+    private boolean mHasSecondScreen;
+
     public StatusBarWindowManager(Context context) {
         mContext = context;
         mWindowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -68,6 +71,7 @@ public class StatusBarWindowManager implements RemoteInputController.Callback {
         mKeyguardScreenRotation = shouldEnableKeyguardScreenRotation();
         mScreenBrightnessDoze = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_screenBrightnessDoze) / 255f;
+        mHasSecondScreen = context.getResources().getBoolean(com.android.internal.R.bool.config_hasSecondScreen);
     }
 
     private boolean shouldEnableKeyguardScreenRotation() {
@@ -418,5 +422,28 @@ public class StatusBarWindowManager implements RemoteInputController.Callback {
 
             return result.toString();
         }
+    }
+
+    public void updateSecondScreenOffset() {
+        if(!mHasSecondScreen)
+            return;
+        int rotation = ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
+        switch(rotation) {
+            // Rotated <-
+            case Surface.ROTATION_90:
+            // Rotated ->
+            case Surface.ROTATION_270:
+            // Rotated Upside Down
+            case Surface.ROTATION_180:
+                mLpChanged.y = 0;
+                break;
+            // Neutral
+            case Surface.ROTATION_0:
+                mLpChanged.y = 160;
+                break;
+            default:
+                break;
+        }
+        apply(mCurrentState);
     }
 }

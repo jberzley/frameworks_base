@@ -49,6 +49,7 @@ import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
 import android.view.View.AccessibilityDelegate;
 import android.view.View.OnAttachStateChangeListener;
@@ -144,6 +145,8 @@ public class VolumeDialog implements TunerService.Tunable {
     private boolean mShowFullZen;
     private TunerZenModePanel mZenPanel;
 
+    private boolean mHasSecondScreen;
+
     public VolumeDialog(Context context, int windowType, VolumeDialogController controller,
             ZenModeController zenModeController, Callback callback) {
         mContext = context;
@@ -151,6 +154,7 @@ public class VolumeDialog implements TunerService.Tunable {
         mCallback = callback;
         mWindowType = windowType;
         mZenModeController = zenModeController;
+        mHasSecondScreen = context.getResources().getBoolean(com.android.internal.R.bool.config_hasSecondScreen);
         mKeyguard = (KeyguardManager) context.getSystemService(Context.KEYGUARD_SERVICE);
         mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         mAccessibilityMgr =
@@ -987,6 +991,32 @@ public class VolumeDialog implements TunerService.Tunable {
             updateWindowWidthH();
             mSpTexts.update();
             mZenFooter.onConfigurationChanged();
+            updateSecondScreenOffset();
+        }
+
+        private void updateSecondScreenOffset() {
+            if(!mHasSecondScreen)
+                return;
+            int rotation = ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
+            final Resources res = mContext.getResources();
+            final WindowManager.LayoutParams lp = mWindow.getAttributes();
+            switch(rotation) {
+                // Rotated <-
+                case Surface.ROTATION_90:
+                // Rotated ->
+                case Surface.ROTATION_270:
+                // Rotated Upside Down
+                case Surface.ROTATION_180:
+                    lp.y = res.getDimensionPixelSize(R.dimen.volume_offset_top);
+                    break;
+                // Neutral
+                case Surface.ROTATION_0:
+                    lp.y = res.getDimensionPixelSize(R.dimen.volume_offset_top_second_screen);
+                    break;
+                default:
+                    break;
+            }
+            mWindow.setAttributes(lp);
         }
 
         @Override

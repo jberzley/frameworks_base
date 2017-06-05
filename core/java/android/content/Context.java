@@ -2719,6 +2719,7 @@ public abstract class Context {
             //@hide: SOUND_TRIGGER_SERVICE,
             SHORTCUT_SERVICE,
             //@hide: CONTEXTHUB_SERVICE,
+            SECOND_SCREEN_SERVICE,
     })
     @Retention(RetentionPolicy.SOURCE)
     public @interface ServiceName {}
@@ -2921,6 +2922,8 @@ public abstract class Context {
      * @see android.view.WindowManager
      */
     public static final String WINDOW_SERVICE = "window";
+
+    public static final String SECOND_SCREEN_SERVICE = "secondscreen";
 
     /**
      * Use with {@link #getSystemService} to retrieve a

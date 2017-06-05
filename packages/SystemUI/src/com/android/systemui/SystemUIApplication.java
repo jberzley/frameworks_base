@@ -28,6 +28,7 @@ import android.os.UserHandle;
 import android.util.Log;
 
 import com.android.systemui.stackdivider.Divider;
+import com.android.systemui.secondscreen.SecondScreenService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -76,6 +77,8 @@ public class SystemUIApplication extends Application {
     private boolean mBootCompleted;
     private final Map<Class<?>, Object> mComponents = new HashMap<>();
 
+    private boolean mHasSecondScreen;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -85,6 +88,11 @@ public class SystemUIApplication extends Application {
         setTheme(R.style.systemui_theme);
 
         SystemUIFactory.createFromConfig(this);
+
+        mHasSecondScreen = getResources().getBoolean(com.android.internal.R.bool.config_hasSecondScreen);
+
+        Intent intent = new Intent(this, SecondScreenService.class);
+        if(mHasSecondScreen) startService(intent);
 
         if (Process.myUserHandle().equals(UserHandle.SYSTEM)) {
             IntentFilter filter = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);

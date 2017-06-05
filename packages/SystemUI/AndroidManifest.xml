@@ -117,6 +117,7 @@
     <uses-permission android:name="android.permission.SET_WALLPAPER"/>
 
     <!-- Recents -->
+    <uses-permission android:name="android.permission.MODIFY_APPWIDGET_BIND_PERMISSIONS"/>
     <uses-permission android:name="android.permission.BIND_APPWIDGET" />
 
     <!-- Wifi Display -->
@@ -203,6 +204,11 @@
         <service android:name="SystemUIService"
             android:exported="true"
             />
+
+        <service
+            android:name="com.android.systemui.secondscreen.SecondScreenService"
+            android:enabled="true"
+            android:exported="true" />
 
         <!-- Recents depends on every user having their own SystemUI process, so on user switch,
              ensure that the process is created by starting this service.

@@ -111,6 +111,7 @@ import android.print.IPrintManager;
 import android.print.PrintManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.hardware.fingerprint.IFingerprintService;
+import android.secondscreen.SecondScreenManager;
 import android.service.persistentdata.IPersistentDataBlockService;
 import android.service.persistentdata.PersistentDataBlockManager;
 import android.telecom.TelecomManager;
@@ -560,6 +561,13 @@ final class SystemServiceRegistry {
             @Override
             public WindowManager createService(ContextImpl ctx) {
                 return new WindowManagerImpl(ctx);
+            }});
+
+        registerService(Context.SECOND_SCREEN_SERVICE, SecondScreenManager.class,
+                new StaticServiceFetcher<SecondScreenManager>() {
+            @Override
+            public SecondScreenManager createService() {
+                return new SecondScreenManager();
             }});
 
         registerService(Context.USER_SERVICE, UserManager.class,

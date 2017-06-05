@@ -851,6 +851,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private boolean mClearedBecauseOfForceShow;
     private boolean mTopWindowIsKeyguard;
 
+    private boolean mHasSecondScreen;
+
     private class PolicyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -1980,6 +1982,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         mHasFeatureWatch = mContext.getPackageManager().hasSystemFeature(FEATURE_WATCH);
         mCameraManager = (CameraManager) mContext.getSystemService(Context.CAMERA_SERVICE);
 
+        mHasSecondScreen = context.getResources().getBoolean(com.android.internal.R.bool.config_hasSecondScreen);
+
         // Init display burn-in protection
         boolean burnInProtectionEnabled = context.getResources().getBoolean(
                 com.android.internal.R.bool.config_enableBurnInProtection);
@@ -2963,8 +2967,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     public void onConfigurationChanged() {
         final Resources res = mContext.getResources();
 
-        mStatusBarHeight =
-                res.getDimensionPixelSize(com.android.internal.R.dimen.status_bar_height);
+        updateSecondScreenOffset();
 
         updateNavigationBarSize();
 
@@ -2985,6 +2988,31 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mNavigationBarWidthForRotationInCarMode[mSeascapeRotation] =
                     res.getDimensionPixelSize(
                             com.android.internal.R.dimen.navigation_bar_width_car_mode);
+        }
+    }
+
+    private void updateSecondScreenOffset() {
+        final Resources res = mContext.getResources();
+        if(!mHasSecondScreen)
+            return;
+        int rotation = ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
+        switch(rotation) {
+            // Rotated <-
+            case Surface.ROTATION_90:
+            // Rotated ->
+            case Surface.ROTATION_270:
+            // Rotated Upside Down
+            case Surface.ROTATION_180:
+                mStatusBarHeight =
+                        res.getDimensionPixelSize(com.android.internal.R.dimen.status_bar_height);
+                break;
+            // Neutral
+            case Surface.ROTATION_0:
+                mStatusBarHeight =
+                        res.getDimensionPixelSize(com.android.internal.R.dimen.status_bar_height_second_screen);
+                break;
+            default:
+                break;
         }
     }
 

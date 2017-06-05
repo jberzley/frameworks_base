@@ -4302,6 +4302,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         if (mSlimRecents != null) {
             mSlimRecents.onConfigurationChanged(newConfig);
         }
+        mStatusBarWindowManager.updateSecondScreenOffset();
     }
 
     @Override

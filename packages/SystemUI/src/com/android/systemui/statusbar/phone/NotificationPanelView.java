@@ -40,10 +40,12 @@ import android.util.AttributeSet;
 import android.util.MathUtils;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
+import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -116,6 +118,8 @@ public class NotificationPanelView extends PanelView implements
     private int mTrackingPointer;
     private VelocityTracker mVelocityTracker;
     private boolean mQsTracking;
+
+    private boolean mHasSecondScreen;
 
     /**
      * If set, the ongoing touch gesture might both trigger the expansion in {@link PanelView} and
@@ -234,6 +238,7 @@ public class NotificationPanelView extends PanelView implements
         mLockPatternUtils = new LockPatternUtils(context);
         mFalsingManager = FalsingManager.getInstance(context);
 
+        mHasSecondScreen = mContext.getResources().getBoolean(com.android.internal.R.bool.config_hasSecondScreen);
         mSettingsObserver = new SettingsObserver(mHandler);
         mDoubleTapGesture = new GestureDetector(mContext, new GestureDetector.SimpleOnGestureListener() {
             @Override
@@ -1648,6 +1653,30 @@ public class NotificationPanelView extends PanelView implements
         return mNotificationStackScroller.getNotificationsTopY();
     }
 
+    private void updateSecondScreenOffset() {
+        if(!mHasSecondScreen)
+            return;
+        int rotation = ((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getRotation();
+        MarginLayoutParams layoutParams = (MarginLayoutParams) getLayoutParams();
+        switch(rotation) {
+            // Rotated <-
+            case Surface.ROTATION_90:
+            // Rotated ->
+            case Surface.ROTATION_270:
+            // Rotated Upside Down
+            case Surface.ROTATION_180:
+                layoutParams.setMargins(0,0,0,0);
+                break;
+            // Neutral
+            case Surface.ROTATION_0:
+                layoutParams.setMargins(0,160,0,0);
+                break;
+            default:
+                break;
+        }
+        setLayoutParams(layoutParams);
+    }
+
     @Override
     protected void onExpandingStarted() {
         super.onExpandingStarted();
@@ -1802,6 +1831,7 @@ public class NotificationPanelView extends PanelView implements
             resetVerticalPanelPosition();
         }
         mLastOrientation = newConfig.orientation;
+        updateSecondScreenOffset();
     }
 
     @Override
