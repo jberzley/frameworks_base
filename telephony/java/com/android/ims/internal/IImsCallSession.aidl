@@ -258,20 +258,20 @@ interface IImsCallSession {
 
     /**
      * Device issues RTT modify request
-     * @param: toProfile The profile with requested changes made
+     * @param toProfile The profile with requested changes made
      */
     void sendRttModifyRequest(in ImsCallProfile toProfile);
 
     /*
      * Device responds to Remote RTT modify request
-     * @param: status true : Accepted the request
+     * @param status true : Accepted the request
      *                false : Declined the request
      */
     void sendRttModifyResponse(in boolean status);
 
     /*
      * Device sends RTT message
-     * @param: rttMessage RTT message to be sent
+     * @param rttMessage RTT message to be sent
      */
     void sendRttMessage(in String rttMessage);
 }

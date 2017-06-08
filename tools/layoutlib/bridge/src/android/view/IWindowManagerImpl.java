@@ -73,6 +73,11 @@ public class IWindowManagerImpl implements IWindowManager {
         return mHasNavigationBar;
     }
 
+    @Override
+    public boolean needsNavigationBar() {
+        return mHasNavigationBar;
+    }
+
     // ---- unused implementation of IWindowManager ----
 
     @Override

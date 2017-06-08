@@ -71,6 +71,11 @@ public class BridgePowerManager implements IPowerManager {
     }
 
     @Override
+    public void wakeUpWithProximityCheck(long eventTime, String reason, String opPackageName) {
+        // pass for now.
+    }
+
+    @Override
     public void goToSleep(long arg0, int arg1, int arg2) throws RemoteException {
         // pass for now.
     }
