@@ -639,17 +639,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         @Override
         public void onChange(boolean selfChange, Uri uri) {
             super.onChange(selfChange, uri);
-            boolean wasUsing = mUseNavBar;
-            mUseNavBar = Settings.System.getIntForUser(
-                    mContext.getContentResolver(), Settings.System.NAVIGATION_BAR_ENABLED, 0,
-                    UserHandle.USER_CURRENT) != 0;
-            Log.d(TAG, "navbar is " + (mUseNavBar ? "enabled" : "disabled"));
-            if (wasUsing != mUseNavBar) {
-                if (mAssistManager != null) {
-                    mAssistManager.onConfigurationChanged();
-                }
-            }
-
             if (uri.equals(Settings.System.getUriFor(
                     Settings.System.STATUS_BAR_SHOW_TICKER))) {
                     mTickerEnabled = Settings.System.getIntForUser(
