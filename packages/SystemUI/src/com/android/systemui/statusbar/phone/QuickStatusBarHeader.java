@@ -59,7 +59,7 @@ import com.android.systemui.statusbar.policy.UserInfoController.OnUserInfoChange
 
 public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         NextAlarmChangeCallback, OnClickListener, OnUserInfoChangedListener, EmergencyListener,
-        SignalCallback {
+        SignalCallback, View.OnLongClickListener {
 
     private static final String TAG = "QuickStatusBarHeader";
 
@@ -139,7 +139,8 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
 
         mSettingsButton = findViewById(R.id.settings_button);
         mSettingsButton.setOnClickListener(this);
-
+        mSettingsButton.setOnLongClickListener(this);
+        
         mRunningServicesButton = findViewById(R.id.running_services_button);
         mRunningServicesButton.setOnClickListener(this);
 
@@ -477,5 +478,13 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         if (mHeaderQsPanel != null) {
             mHeaderQsPanel.updateSettings();
         }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+	if (v == mSettingsButton){
+            startDesoActivity();
+	}
+        return false;
     }
 }
