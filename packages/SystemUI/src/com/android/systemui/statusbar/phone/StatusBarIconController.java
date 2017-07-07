@@ -83,7 +83,6 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
     private View mNotificationIconAreaInner;
 
     private BatteryMeterView mBatteryMeterView;
-    private BatteryLevelTextView mBatteryLevelTextView;
     private BatteryMeterView mBatteryMeterViewKeyguard;
     private Clock mClock;
     private Clock mCenterClock;
@@ -153,8 +152,7 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
         mStatusIconsKeyguard = (LinearLayout) keyguardStatusBar.findViewById(R.id.statusIcons);
 
         mBatteryMeterView = (BatteryMeterView) statusBar.findViewById(R.id.battery);
-        mBatteryLevelTextView =
-                (BatteryLevelTextView) statusBar.findViewById(R.id.battery_level_text);
+        mBatteryLevelView = (BatteryLevelTextView) statusBar.findViewById(R.id.battery_level);
         mBatteryMeterViewKeyguard = (BatteryMeterView) keyguardStatusBar.findViewById(R.id.battery);
         scaleBatteryMeterViews(context);
 
@@ -175,7 +173,6 @@ public class StatusBarIconController extends StatusBarIconList implements Tunabl
         mClock.setStatusBarIconController(this);
         mCenterClock.setStatusBarIconController(this);
         mLeftClock.setStatusBarIconController(this);
-        mBatteryLevelView = (BatteryLevelTextView) statusBar.findViewById(R.id.battery_level);
 
         TunerService.get(mContext).addTunable(this, ICON_BLACKLIST);
     }
