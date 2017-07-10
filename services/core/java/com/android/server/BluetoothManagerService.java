@@ -584,7 +584,7 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
     private void disableBleScanMode() {
         try {
             mBluetoothLock.writeLock().lock();
-            if (mBluetooth != null && (mBluetooth.getState() != BluetoothAdapter.STATE_ON)) {
+            if (mBluetooth != null && (mBluetooth.getState() != BluetoothAdapter.STATE_ON) && (!isBluetoothPersistedStateOnBluetooth())) {
                 if (DBG) Slog.d(TAG, "Reseting the mEnable flag for clean disable");
                 mEnable = false;
             }
@@ -614,8 +614,25 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
         }
         int appCount = mBleApps.size();
         if (DBG) Slog.d(TAG, appCount + " registered Ble Apps");
-        if (appCount == 0 && mEnable) {
-            disableBleScanMode();
+        if (appCount == 0) {
+            int st;
+            if(mEnable) {
+                disableBleScanMode();
+            }
+            try {
+                mBluetoothLock.readLock().lock();
+                if (mBluetooth != null) {
+                    st = mBluetooth.getState();
+                    if(st == BluetoothAdapter.STATE_BLE_ON) {
+                        if (DBG) Slog.d(TAG, "Move to State Off");
+                        mBluetooth.onBrEdrDown();
+                    }
+                }
+            } catch (RemoteException e) {
+                Slog.e(TAG, "", e);
+            } finally {
+                mBluetoothLock.readLock().unlock();
+            }
         }
         return appCount;
     }
@@ -1691,6 +1708,7 @@ class BluetoothManagerService extends IBluetoothManager.Stub {
                         mHandler.removeMessages(MESSAGE_BLUETOOTH_STATE_CHANGE);
                         mState = BluetoothAdapter.STATE_OFF;
                         // enable
+                        mEnable = true;
                         handleEnable(mQuietEnable);
                     } else if (mBinding || mBluetooth != null) {
                         Message userMsg = mHandler.obtainMessage(MESSAGE_USER_SWITCHED);
