@@ -4282,12 +4282,6 @@ public final class Settings {
                 "lockscreen_shortcuts_longpress";
 
         /**
-         * Option to hide AM/PM sufix
-         * @hide
-         */
-        public static final String LOCK_SCREEN_HIDE_AMPM = "lock_screen_hide_ampm";
-
-        /**
          * @hide
          */
         public static final String START_SCREEN_STATE_SERVICE = "start_screen_state_service";
