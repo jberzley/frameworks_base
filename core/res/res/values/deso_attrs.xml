@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2016 The Pure Nexus Project
-     Copyright (C) 2016 Flash ROM
+     Copyright (C) 2017 Desolation ROM
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -16,6 +15,13 @@
      limitations under the License.
 -->
 <resources>
-     <!-- Largest size an avatar might need to be drawn in the power menu user picker -->
-     <dimen name="global_actions_avatar_size">40dp</dimen>
+
+    <!-- Base attributes available to SeekBarPreference. -->
+    <declare-styleable name="SeekBarPreference">
+        <attr name="interval" format="integer" />
+        <attr name="min" format="integer" />
+        <attr name="unitsLeft" format="string|reference" />
+        <attr name="unitsRight" format="string|reference" />
+    </declare-styleable>
+
 </resources>
