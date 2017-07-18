@@ -21,7 +21,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="16dp"
-    android:gravity="center_horizontal"
+    android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
@@ -54,7 +54,7 @@
         android:layout_marginTop="-4dp"
         android:textAppearance="@style/TextAppearance.StatusBar.Expanded.Clock"
         android:textSize="@dimen/qs_time_collapsed_size"
-        android:gravity="top"
+        android:gravity="bottom"
         systemui:datePattern="@string/abbrev_wday_month_day_no_year_alarm" />
 
     <com.android.systemui.statusbar.AlphaOptimizedButton
@@ -67,7 +67,7 @@
         android:drawableStart="@drawable/ic_access_alarms_small"
         android:textColor="#64ffffff"
         android:textAppearance="@style/TextAppearance.StatusBar.Expanded.Date"
-        android:gravity="top"
+        android:gravity="bottom"
         android:background="?android:attr/selectableItemBackground"
         android:visibility="gone" />
 

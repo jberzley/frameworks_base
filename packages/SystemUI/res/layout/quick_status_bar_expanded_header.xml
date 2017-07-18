@@ -208,7 +208,7 @@
     <include
         android:id="@+id/date_time_alarm_center_group"
         layout="@layout/status_bar_alarm_center_group"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:visibility="gone" />
 
     <com.android.systemui.qs.QuickQSPanel
