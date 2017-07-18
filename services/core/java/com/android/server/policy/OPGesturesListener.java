@@ -27,7 +27,7 @@ public class OPGesturesListener implements PointerEventListener {
     private static final String TAG = "OPGestures";
     private static final boolean DEBUG = false;
     private static final int NUM_POINTER_SCREENSHOT = 3;
-    private static final long SWIPE_TIMEOUT_MS = 50;
+    private static final long SWIPE_TIMEOUT_MS = 500;
     private static final int MAX_TRACKED_POINTERS = 32;
     private static final int UNTRACKED_POINTER = -1;
     private static final int THREE_SWIPE_DISTANCE = 350;
