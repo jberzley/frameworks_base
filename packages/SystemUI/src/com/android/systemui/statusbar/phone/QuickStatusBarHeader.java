@@ -126,7 +126,7 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     private boolean hasExpandIndicator;
     private boolean hasMultiUserSwitch;
     private boolean hasRunningServices;
-    private boolean mDateTimeGroupCenter;
+    private int mDateTimeGroupCenter;
 
     // omni additions
     private ImageView mBackgroundImage;
@@ -276,14 +276,27 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     }
 
     private void updateDateTimeCenter() {
-        mDateTimeGroupCenter = isDateTimeGroupCenter();
-        if (mDateTimeGroupCenter && !(hasSettingsIcon && hasEdit && hasMultiUserSwitch
+        mDateTimeGroupCenter = Settings.System.getInt(mContext.getContentResolver(),
+                 Settings.System.QS_DATE_TIME_CENTER, 1);
+        switch (mDateTimeGroupCenter) {
+            case 0:
+                mDateTimeAlarmCenterGroup.setVisibility(View.GONE);
+                mDateTimeAlarmGroup.setVisibility(View.GONE);
+                break;
+            case 1:
+                mDateTimeAlarmCenterGroup.setVisibility(View.GONE);
+                mDateTimeAlarmGroup.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                if (!(hasSettingsIcon && hasEdit && hasMultiUserSwitch
                                       && hasExpandIndicator && hasRunningServices)) {
-            mDateTimeAlarmGroup.setVisibility(View.GONE);
-            mDateTimeAlarmCenterGroup.setVisibility(View.VISIBLE);
-        } else {
-            mDateTimeAlarmCenterGroup.setVisibility(View.GONE);
-            mDateTimeAlarmGroup.setVisibility(View.VISIBLE);
+                mDateTimeAlarmGroup.setVisibility(View.GONE);
+                mDateTimeAlarmCenterGroup.setVisibility(View.VISIBLE);
+                } else {
+                mDateTimeAlarmCenterGroup.setVisibility(View.GONE);
+                mDateTimeAlarmGroup.setVisibility(View.VISIBLE);
+                }
+                break;
         }
     }
 
@@ -749,10 +762,5 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
     public boolean isWeatherImageShown() {
         return Settings.System.getInt(mContext.getContentResolver(),
             Settings.System.HEADER_WEATHER_IMAGE_ENABLED, 0) == 1;
-    }
-
-    public boolean isDateTimeGroupCenter() {
-        return Settings.System.getInt(mContext.getContentResolver(),
-            Settings.System.QS_DATE_TIME_CENTER, 1) == 1;
     }
 }

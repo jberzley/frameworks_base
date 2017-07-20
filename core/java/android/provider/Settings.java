@@ -4372,7 +4372,7 @@ public final class Settings {
         public static final String SCREENSHOT_SOUND = "screenshot_sound";
 
         /**
-         * Whether to center or left justify date time group
+         * Allows Hidden (0) Left Justify (1) or Center Time/Date (2) in Pulldown Header
          * @hide
          */
         public static final String QS_DATE_TIME_CENTER = "qs_date_time_center";
