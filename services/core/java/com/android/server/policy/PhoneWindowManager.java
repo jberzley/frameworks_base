@@ -6162,7 +6162,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         final int keyCode = event.getKeyCode();
 
         final int repeatCount = event.getRepeatCount();
-        final boolean longPress = (flags & KeyEvent.FLAG_LONG_PRESS) != 0;
+        final boolean longPress = (KeyEvent.FLAG_LONG_PRESS) != 0;
 
         final boolean isInjected = (policyFlags & WindowManagerPolicy.FLAG_INJECTED) != 0;
 
@@ -6182,7 +6182,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         }
 
         // Intercept the Keypress event for Keypress boost
-        if (lIsPerfBoostEnabled && !isCustomSource) {
+        if (lIsPerfBoostEnabled) {
             if (down && !longPress && repeatCount == 0 || down && longPress && repeatCount == 1) {
                 final long boostEventTime = mBoostEventTime;
                 mBoostEventTime = SystemClock.uptimeMillis();
