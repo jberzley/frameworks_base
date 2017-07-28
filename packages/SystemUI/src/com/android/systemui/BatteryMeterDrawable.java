@@ -64,6 +64,8 @@ public class BatteryMeterDrawable extends Drawable implements
             Settings.Secure.FORCE_CHARGE_BATTERY_TEXT;
     private static final String TEXT_CHARGING_SYMBOL =
             Settings.Secure.TEXT_CHARGING_SYMBOL;
+    private static final String PULSE_CHARGING_DURATION =
+            Settings.System.PULSE_CHARGING_DURATION;
 
     // Values for the different battery styles
     public static final int BATTERY_STYLE_PORTRAIT  = 0;
@@ -72,7 +74,7 @@ public class BatteryMeterDrawable extends Drawable implements
     public static final int BATTERY_STYLE_LANDSCAPE = 5;
     public static final int BATTERY_STYLE_TEXT      = 6;
     public static final int BATTERY_STYLE_BIGCIRCLE = 7;
-	public static final int BATTERY_STYLE_SOLID     = 8;
+    public static final int BATTERY_STYLE_SOLID     = 8;
 
     private final int[] mColors;
     private final int mIntrinsicWidth;
@@ -123,7 +125,7 @@ public class BatteryMeterDrawable extends Drawable implements
     private Drawable mBoltDrawable;
     private Drawable mPlusDrawable;
     private ValueAnimator mAnimator;
-
+    private int mPulseDuration;
     private int mTextGravity;
 
     private int mCurrentBackgroundColor = 0;
@@ -160,6 +162,7 @@ public class BatteryMeterDrawable extends Drawable implements
         updateShowPercent();
         updateForceChargeBatteryText();
         updateCustomChargingSymbol();
+        updatePulseChargeDuration();
         mWarningString = context.getString(R.string.battery_meter_very_low_overlay_symbol);
         mCriticalLevel = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_criticalBatteryWarningLevel);
@@ -222,6 +225,10 @@ public class BatteryMeterDrawable extends Drawable implements
         mContext.getContentResolver().registerContentObserver(
                 Settings.Secure.getUriFor(TEXT_CHARGING_SYMBOL),
                 false, mSettingObserver);
+        mContext.getContentResolver().registerContentObserver(
+                Settings.System.getUriFor(PULSE_CHARGING_DURATION),
+                true, mSettingObserver);
+        updatePulseChargeDuration();
         updateShowPercent();
         updateChargeColor();
         updateForceChargeBatteryText();
@@ -305,6 +312,12 @@ public class BatteryMeterDrawable extends Drawable implements
                 TEXT_CHARGING_SYMBOL, 0);
     }
 
+    private void updatePulseChargeDuration() {
+        mPulseDuration = Settings.System.getInt(mContext.getContentResolver(),
+                PULSE_CHARGING_DURATION, 2000);
+    }
+
+
     private int getColorForLevel(int percent) {
         return getColorForLevel(percent, false);
     }
@@ -379,7 +392,7 @@ public class BatteryMeterDrawable extends Drawable implements
                     mAnimator = null;
                 }
             });
-            mAnimator.setDuration(2000);
+            mAnimator.setDuration(mPulseDuration);
             mAnimator.start();
         }
     }
@@ -453,6 +466,7 @@ public class BatteryMeterDrawable extends Drawable implements
             updateChargeColor();
             updateForceChargeBatteryText();
             updateCustomChargingSymbol();
+            updatePulseChargeDuration();
             postInvalidate();
         }
     }
