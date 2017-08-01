@@ -290,6 +290,10 @@ public class QSCustomizer extends LinearLayout implements OnMenuItemClickListene
                         Settings.System.QS_LAYOUT_COLUMNS_LANDSCAPE, 9, UserHandle.USER_CURRENT);
                 break;
             //rows portrait
+            case R.id.menu_item_rows_two:
+                Settings.System.putIntForUser(mContext.getContentResolver(),
+                        Settings.System.QS_LAYOUT_ROWS, 2, UserHandle.USER_CURRENT);
+                break;
             case R.id.menu_item_rows_three:
                 Settings.System.putIntForUser(mContext.getContentResolver(),
                         Settings.System.QS_LAYOUT_ROWS, 3, UserHandle.USER_CURRENT);

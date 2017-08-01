@@ -56,6 +56,8 @@ limitations under the License.
         <item android:id="@+id/menu_item_rows"
               android:title="@string/qs_menu_item_rows">
             <menu>
+                <item android:id="@+id/menu_item_rows_two"
+                      android:title="@string/qs_menu_item_two" />
                 <item android:id="@+id/menu_item_rows_three"
                       android:title="@string/qs_menu_item_three" />
                 <item android:id="@+id/menu_item_rows_four"
