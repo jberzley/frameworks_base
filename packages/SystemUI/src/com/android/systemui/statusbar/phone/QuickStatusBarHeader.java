@@ -88,8 +88,6 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
 
     private TextView mAlarmStatus;
     private View mAlarmStatusCollapsed;
-    private View mClock;
-    private View mDate;
 
     private QSPanel mQsPanel;
 
@@ -525,6 +523,10 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
         } else if (v == mAlarmStatus && mNextAlarm != null) {
             PendingIntent showIntent = mNextAlarm.getShowIntent();
             mActivityStarter.startPendingIntentDismissingKeyguard(showIntent);
+        } else if (v == mClock) {
+            startAlarmsActivity();
+        } else if (v == mDate) {
+            startCalendarActivity();
         }
     }
 
@@ -542,10 +544,6 @@ public class QuickStatusBarHeader extends BaseStatusBarHeader implements
             if (showIntent != null && showIntent.isActivity()) {
                 intent = showIntent.getIntent();
             }
-        } else if (v == mClock) {
-            startAlarmsActivity();
-        } else if (v == mDate) {
-            startCalendarActivity();
         }
         if (intent == null) {
             intent = new Intent(AlarmClock.ACTION_SHOW_ALARMS);
