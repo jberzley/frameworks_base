@@ -154,4 +154,7 @@
   <java-symbol type="drawable" name="ic_audio_notification_mute_new" />
   <java-symbol type="drawable" name="ic_audio_notification_mute_alpha" />
 
+  <!-- config softap extention feature -->
+  <java-symbol type="bool" name="config_softap_extention" />
+
 </resources>
